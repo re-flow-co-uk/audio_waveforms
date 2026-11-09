@@ -43,7 +43,7 @@ dependencies:
 
 ```dart
 // Import the package
-import 'package:audio_waveforms_gdx_plus/audio_waveforms_gdx_plus.dart';
+import 'package:audio_waveforms_gdx_plus/audio_waveforms.dart';
 
 // Create a recorder controller
 final recorderController = RecorderController();
@@ -195,7 +195,7 @@ platform :osx, '10.14'
 Add the import statement in your Dart files where you want to use Audio Waveforms:
 
 ```dart
-import 'package:audio_waveforms_gdx_plus/audio_waveforms_gdx_plus.dart';
+import 'package:audio_waveforms_gdx_plus/audio_waveforms.dart';
 ```
 
 ## 5. Clean and rebuild
@@ -326,7 +326,7 @@ Here's a complete basic recording example:
 
 ```dart
 import 'package:flutter/material.dart';
-import 'package:audio_waveforms_gdx_plus/audio_waveforms_gdx_plus.dart';
+import 'package:audio_waveforms_gdx_plus/audio_waveforms.dart';
 
 class RecorderScreen extends StatefulWidget {
   const RecorderScreen({Key? key}) : super(key: key);
@@ -557,7 +557,7 @@ Here's a complete basic playback example:
 
 ```dart
 import 'package:flutter/material.dart';
-import 'package:audio_waveforms_gdx_plus/audio_waveforms_gdx_plus.dart';
+import 'package:audio_waveforms_gdx_plus/audio_waveforms.dart';
 
 class PlayerScreen extends StatefulWidget {
   final String audioPath;
@@ -1414,7 +1414,7 @@ Here's a complete example of extracting and displaying waveforms:
 
 ```dart
 import 'package:flutter/material.dart';
-import 'package:audio_waveforms_gdx_plus/audio_waveforms_gdx_plus.dart';
+import 'package:audio_waveforms_gdx_plus/audio_waveforms.dart';
 
 class WaveformExtractionScreen extends StatefulWidget {
   final String audioPath;

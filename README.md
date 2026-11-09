@@ -41,7 +41,7 @@ dependencies:
 Then import the library:
 
 ```dart
-import 'package:audio_waveforms_gdx_plus/audio_waveforms_gdx_plus.dart';
+import 'package:audio_waveforms_gdx_plus/audio_waveforms.dart';
 ```
 
 ## Compatibility

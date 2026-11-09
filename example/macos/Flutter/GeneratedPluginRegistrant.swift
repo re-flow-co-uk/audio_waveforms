@@ -5,7 +5,7 @@
 import FlutterMacOS
 import Foundation
 
-import audio_waveforms_gdx_plus
+import audio_waveforms
 import file_picker_darwin
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {

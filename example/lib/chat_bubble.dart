@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:audio_waveforms_gdx_plus/audio_waveforms_gdx_plus.dart';
+import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:flutter/material.dart';
 
 class ChatBubble extends StatelessWidget {

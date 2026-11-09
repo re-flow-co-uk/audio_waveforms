@@ -5,12 +5,9 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-
 import 'package:audio_waveforms_gdx_plus_example/main.dart';
-
-void main() {
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_testvoid main() {
   testWidgets('renders the example application', (WidgetTester tester) async {
     await tester.pumpWidget(const MyApp());
 

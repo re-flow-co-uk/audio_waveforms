@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '/audio_waveforms_gdx_plus.dart';
+import 'audio_waveforms.dart';
 import 'base/label.dart';
 import 'base/wave_clipper.dart';
 import 'painters/recorder_wave_painter.dart';
@@ -65,8 +65,9 @@ class _AudioWaveformsState extends State<AudioWaveforms> {
     // For LTR, initial position starts at negative half thickness
     _initialPosition = _isRtl ? 0.0 : -(_waveStyle.waveThickness / 2);
     _recorderController.addListener(_recorderControllerListener);
-    streamSubscription =
-        _recorderController.onCurrentDuration.listen((duration) {
+    streamSubscription = _recorderController.onCurrentDuration.listen((
+      duration,
+    ) {
       currentlyRecordedDuration = duration;
       final currentSeconds = currentlyRecordedDuration.inSeconds;
       if (currentSeconds > 0 && _labels.length < currentSeconds) {
@@ -109,10 +110,12 @@ class _AudioWaveformsState extends State<AudioWaveforms> {
       color: widget.backgroundColor,
       decoration: widget.decoration,
       child: GestureDetector(
-        onHorizontalDragUpdate:
-            widget.enableGesture ? _handleHorizontalDragUpdate : null,
-        onHorizontalDragStart:
-            widget.enableGesture ? _handleHorizontalDragStart : null,
+        onHorizontalDragUpdate: widget.enableGesture
+            ? _handleHorizontalDragUpdate
+            : null,
+        onHorizontalDragStart: widget.enableGesture
+            ? _handleHorizontalDragStart
+            : null,
         child: ClipPath(
           clipper: WaveClipper(
             extraClipperHeight: _extraClipperHeight,
@@ -222,17 +225,15 @@ class _AudioWaveformsState extends State<AudioWaveforms> {
         _dragOffset = Offset.zero;
         _isScrolled = false;
         // Reset shouldRefresh flag and trigger rebuild with new values
-        WidgetsBinding.instance.addPostFrameCallback(
-          (_) {
-            _recorderController.setRefresh(false);
-          },
-        );
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _recorderController.setRefresh(false);
+        });
       }
     } else {
       if (_isScrolled) {
         _initialPosition =
             _waveStyle.spacing * _recorderController.waveData.length -
-                _size.width / 2;
+            _size.width / 2;
         _totalBackDistance =
             _totalBackDistance + Offset(_waveStyle.spacing, 0.0);
         _isScrolled = false;
@@ -276,7 +277,6 @@ class _AudioWaveformsState extends State<AudioWaveforms> {
         direction > 0) {
       setState(() => _dragOffset += delta);
     }
-
     ///right to left
     else if (totalBackDistanceDx + dragOffset + waveformWidth + deltaDx >
             halfWidth &&
@@ -300,7 +300,6 @@ class _AudioWaveformsState extends State<AudioWaveforms> {
     if (direction < 0 && dragOffsetDx > -halfWidth) {
       setState(() => _dragOffset += delta);
     }
-
     /// left to right
     else if (direction > 0 && dragOffsetDx < waveformWidth - halfWidth) {
       setState(() => _dragOffset += delta);

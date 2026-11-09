@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../audio_waveforms_gdx_plus.dart';
+import '../audio_waveforms.dart';
 import 'base/wave_clipper.dart';
 import 'painters/player_wave_painter.dart';
 
@@ -171,11 +171,11 @@ class _AudioFileWaveformsState extends State<AudioFileWaveforms>
       ..addListener(_updateGrowAnimationProgress)
       ..forward();
 
-    onCurrentDurationSubscription =
-        playerController.onCurrentDurationChanged.listen((event) {
-      _seekProgress.value = event;
-      _updatePlayerPercent();
-    });
+    onCurrentDurationSubscription = playerController.onCurrentDurationChanged
+        .listen((event) {
+          _seekProgress.value = event;
+          _updatePlayerPercent();
+        });
 
     onCompletionSubscription = playerController.onCompletion.listen((event) {
       _seekProgress.value = playerController.maxDuration;
@@ -230,11 +230,13 @@ class _AudioFileWaveformsState extends State<AudioFileWaveforms>
       decoration: widget.decoration,
       clipBehavior: widget.clipBehavior,
       child: GestureDetector(
-        onHorizontalDragUpdate:
-            widget.enableSeekGesture ? _handleDragGestures : null,
+        onHorizontalDragUpdate: widget.enableSeekGesture
+            ? _handleDragGestures
+            : null,
         onTapUp: widget.enableSeekGesture ? _handleOnTapUp : null,
-        onHorizontalDragStart:
-            widget.enableSeekGesture ? _handleHorizontalDragStart : null,
+        onHorizontalDragStart: widget.enableSeekGesture
+            ? _handleHorizontalDragStart
+            : null,
         onHorizontalDragEnd: widget.enableSeekGesture ? _handleOnDragEnd : null,
         onTapDown: widget.enableSeekGesture ? _handleOnTapDown : null,
         child: ClipPath(
@@ -363,7 +365,6 @@ class _AudioFileWaveformsState extends State<AudioFileWaveforms>
     if (updatedPosition + (spacing) < spacing / 2 && _scrollDirection > 0) {
       _dragOffset += details.delta;
     }
-
     // right to left
     else if (currentPosition + totalWaveWidth + details.delta.dx >
             (-spacing / 2) &&

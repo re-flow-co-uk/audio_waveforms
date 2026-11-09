@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../audio_waveforms_gdx_plus.dart';
+import '../../audio_waveforms.dart';
 
 class PlayerWavePainter extends CustomPainter {
   PlayerWavePainter({
@@ -15,20 +15,20 @@ class PlayerWavePainter extends CustomPainter {
     required this.waveformType,
     required this.cachedAudioProgress,
     required this.playerWaveStyle,
-  })  : fixedWavePaint = Paint()
-          ..color = playerWaveStyle.fixedWaveColor
-          ..strokeWidth = playerWaveStyle.waveThickness
-          ..strokeCap = playerWaveStyle.waveCap
-          ..shader = playerWaveStyle.fixedWaveGradient,
-        liveWavePaint = Paint()
-          ..color = playerWaveStyle.liveWaveColor
-          ..strokeWidth = playerWaveStyle.waveThickness
-          ..strokeCap = playerWaveStyle.waveCap
-          ..shader = playerWaveStyle.liveWaveGradient,
-        emptySpace = playerWaveStyle.spacing,
-        middleLinePaint = Paint()
-          ..color = playerWaveStyle.seekLineColor
-          ..strokeWidth = playerWaveStyle.seekLineThickness;
+  }) : fixedWavePaint = Paint()
+         ..color = playerWaveStyle.fixedWaveColor
+         ..strokeWidth = playerWaveStyle.waveThickness
+         ..strokeCap = playerWaveStyle.waveCap
+         ..shader = playerWaveStyle.fixedWaveGradient,
+       liveWavePaint = Paint()
+         ..color = playerWaveStyle.liveWaveColor
+         ..strokeWidth = playerWaveStyle.waveThickness
+         ..strokeCap = playerWaveStyle.waveCap
+         ..shader = playerWaveStyle.liveWaveGradient,
+       emptySpace = playerWaveStyle.spacing,
+       middleLinePaint = Paint()
+         ..color = playerWaveStyle.seekLineColor
+         ..strokeWidth = playerWaveStyle.seekLineThickness;
 
   final List<double> waveformData;
   final double animValue;
@@ -79,11 +79,13 @@ class PlayerWavePainter extends CustomPainter {
     for (int i = 0; i < length; i++) {
       final currentDragPointer = dragOffset.dx - totalBackDistance.dx;
       final waveWidth = i * playerWaveStyle.spacing;
-      final dx = waveWidth +
+      final dx =
+          waveWidth +
           currentDragPointer +
           emptySpace +
           (waveformType.isFitWidth ? 0 : halfWidth);
-      final waveHeight = (waveformData[i] * animValue) *
+      final waveHeight =
+          (waveformData[i] * animValue) *
           playerWaveStyle.scaleFactor *
           scrollScale;
       final bottomDy =

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../audio_waveforms_gdx_plus.dart';
+import '../../audio_waveforms.dart';
 
 class WaveStyle {
   /// A model class to provide style to the waveforms.
@@ -20,10 +20,7 @@ class WaveStyle {
     this.backgroundColor = Colors.black,
     this.showHourInDuration = false,
     this.durationLinesHeight = 16.0,
-    this.durationStyle = const TextStyle(
-      color: Colors.red,
-      fontSize: 16.0,
-    ),
+    this.durationStyle = const TextStyle(color: Colors.red, fontSize: 16.0),
     this.extraClipperHeight,
     this.labelSpacing = 16.0,
     this.durationTextPadding = 20.0,
@@ -32,9 +29,9 @@ class WaveStyle {
     this.scaleFactor = 20.0,
     this.waveformRenderMode = WaveformRenderMode.ltr,
   }) : assert(
-          waveThickness < spacing,
-          "waveThickness can't be greater than spacing",
-        );
+         waveThickness < spacing,
+         "waveThickness can't be greater than spacing",
+       );
 
   /// Color of the [Wave].
   final Color waveColor;

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
-import '../../audio_waveforms_gdx_plus.dart';
+import '../../audio_waveforms.dart';
 import '../base/constants.dart';
 import '../base/platform_streams.dart';
 import '../base/player_identifier.dart';
@@ -96,8 +96,9 @@ class PlayerController extends ChangeNotifier {
 
   void _setPlayerState(PlayerState state) {
     _playerState = state;
-    PlatformStreams.instance
-        .addPlayerStateEvent(PlayerIdentifier(playerKey, state));
+    PlatformStreams.instance.addPlayerStateEvent(
+      PlayerIdentifier(playerKey, state),
+    );
   }
 
   /// Calls platform to prepare player.
@@ -173,8 +174,8 @@ class PlayerController extends ChangeNotifier {
       if (noOfSamplesPerSecond != null) {
         // Use dynamic calculation based on duration
         if (_maxDuration > 0) {
-          actualNoOfSamples =
-              (noOfSamplesPerSecond * (_maxDuration / 1000)).round();
+          actualNoOfSamples = (noOfSamplesPerSecond * (_maxDuration / 1000))
+              .round();
         } else {
           actualNoOfSamples =
               noOfSamplesPerSecond; // Fallback if duration unavailable
@@ -185,18 +186,13 @@ class PlayerController extends ChangeNotifier {
       }
 
       waveformExtraction
-          .extractWaveformData(
-        path: path,
-        noOfSamples: actualNoOfSamples,
-      )
-          .then(
-        (value) {
-          waveformExtraction.waveformData
-            ..clear()
-            ..addAll(value);
-          notifyListeners();
-        },
-      );
+          .extractWaveformData(path: path, noOfSamples: actualNoOfSamples)
+          .then((value) {
+            waveformExtraction.waveformData
+              ..clear()
+              ..addAll(value);
+            notifyListeners();
+          });
     }
     notifyListeners();
   }
@@ -206,13 +202,12 @@ class PlayerController extends ChangeNotifier {
   /// When playing audio is finished, this [player] will be [stopped]
   /// and [disposed] by default. To change this behavior use [setFinishMode] method.
   ///
-  Future<void> startPlayer({
-    bool forceRefresh = true,
-  }) async {
+  Future<void> startPlayer({bool forceRefresh = true}) async {
     if (_playerState == PlayerState.initialized ||
         _playerState == PlayerState.paused) {
-      final isStarted =
-          await AudioWaveformsInterface.instance.startPlayer(playerKey);
+      final isStarted = await AudioWaveformsInterface.instance.startPlayer(
+        playerKey,
+      );
       if (isStarted) {
         _setPlayerState(PlayerState.playing);
       } else {
@@ -225,8 +220,9 @@ class PlayerController extends ChangeNotifier {
 
   /// Pauses currently playing audio.
   Future<void> pausePlayer() async {
-    final isPaused =
-        await AudioWaveformsInterface.instance.pausePlayer(playerKey);
+    final isPaused = await AudioWaveformsInterface.instance.pausePlayer(
+      playerKey,
+    );
     if (isPaused) {
       _setPlayerState(PlayerState.paused);
     }
@@ -235,8 +231,9 @@ class PlayerController extends ChangeNotifier {
 
   /// A function to stop player.
   Future<void> stopPlayer() async {
-    final isStopped =
-        await AudioWaveformsInterface.instance.stopPlayer(playerKey);
+    final isStopped = await AudioWaveformsInterface.instance.stopPlayer(
+      playerKey,
+    );
     if (isStopped) {
       _setPlayerState(PlayerState.stopped);
     }
@@ -256,8 +253,10 @@ class PlayerController extends ChangeNotifier {
   ///
   /// Default to 1.0
   Future<bool> setVolume(double volume) async {
-    final result =
-        await AudioWaveformsInterface.instance.setVolume(volume, playerKey);
+    final result = await AudioWaveformsInterface.instance.setVolume(
+      volume,
+      playerKey,
+    );
     return result;
   }
 
@@ -266,8 +265,10 @@ class PlayerController extends ChangeNotifier {
   ///
   /// Default to 1.0
   Future<bool> setRate(double rate) async {
-    final result =
-        await AudioWaveformsInterface.instance.setRate(rate, playerKey);
+    final result = await AudioWaveformsInterface.instance.setRate(
+      rate,
+      playerKey,
+    );
     return result;
   }
 
@@ -278,8 +279,10 @@ class PlayerController extends ChangeNotifier {
   ///
   /// Default to Duration.max.
   Future<int> getDuration([DurationType? durationType]) async {
-    final duration = await AudioWaveformsInterface.instance
-        .getDuration(playerKey, durationType?.index ?? 1);
+    final duration = await AudioWaveformsInterface.instance.getDuration(
+      playerKey,
+      durationType?.index ?? 1,
+    );
     return duration ?? -1;
   }
 
@@ -297,9 +300,7 @@ class PlayerController extends ChangeNotifier {
   /// is finished playing.
   ///
   /// Check[FinishMode]'s doc to understand the difference between the modes.
-  Future<void> setFinishMode({
-    FinishMode finishMode = FinishMode.stop,
-  }) async {
+  Future<void> setFinishMode({FinishMode finishMode = FinishMode.stop}) async {
     return AudioWaveformsInterface.instance.setReleaseMode(
       playerKey,
       finishMode,
@@ -333,11 +334,13 @@ class PlayerController extends ChangeNotifier {
   /// Returns `true` if all players stop successfully, otherwise returns `false`.
   Future<bool> stopAllPlayers() async {
     PlatformStreams.instance.dispose();
-    var isAllPlayersStopped =
-        await AudioWaveformsInterface.instance.stopAllPlayers();
+    var isAllPlayersStopped = await AudioWaveformsInterface.instance
+        .stopAllPlayers();
     if (isAllPlayersStopped) {
-      PlatformStreams.instance.playerControllerFactory
-          .forEach((playKey, controller) {
+      PlatformStreams.instance.playerControllerFactory.forEach((
+        playKey,
+        controller,
+      ) {
         controller._setPlayerState(PlayerState.stopped);
       });
     }
@@ -346,11 +349,13 @@ class PlayerController extends ChangeNotifier {
 
   /// Pauses all the players. Works similar to stopAllPlayer.
   Future<bool> pauseAllPlayers() async {
-    var isAllPlayersPaused =
-        await AudioWaveformsInterface.instance.pauseAllPlayers();
+    var isAllPlayersPaused = await AudioWaveformsInterface.instance
+        .pauseAllPlayers();
     if (isAllPlayersPaused) {
-      PlatformStreams.instance.playerControllerFactory
-          .forEach((playKey, controller) {
+      PlatformStreams.instance.playerControllerFactory.forEach((
+        playKey,
+        controller,
+      ) {
         controller._setPlayerState(PlayerState.paused);
       });
     }

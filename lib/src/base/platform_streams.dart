@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 
-import '../../audio_waveforms_gdx_plus.dart';
+import '../../audio_waveforms.dart';
 import 'player_identifier.dart';
 
 ///This class should be used for any type of native streams.
@@ -64,7 +64,7 @@ class PlatformStreams {
   late StreamController<PlayerIdentifier<int>> _currentDurationController;
   late StreamController<PlayerIdentifier<PlayerState>> _playerStateController;
   late StreamController<PlayerIdentifier<List<double>>>
-      _extractedWaveformDataController;
+  _extractedWaveformDataController;
   late StreamController<PlayerIdentifier<double>> _extractionProgressController;
   late StreamController<PlayerIdentifier<void>> _completionController;
   late StreamController<double> _recordingAmplitudeController;
